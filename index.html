@@ -1,1 +1,64 @@
-РїСЂРёРІРµС‚
+<!doctype html>
+<html lang="ru">
+<body>
+
+    <!-- Форма для ввода данных -->
+    <form id="userForm">
+        <input type="text" id="username" placeholder="Логин" required>
+        <br><br>
+        <input type="password" id="password" placeholder="Пароль" required>
+        <br><br>
+        <button type="submit">Добавить запись</button>
+    </form>
+
+    <h2>Список из таблицы:</h2>
+    <ul id="dataList"></ul>
+
+    <script>
+        // Создаем локальный массив (имитация таблицы базы данных)
+        let localDatabase = [
+            { username: 'Преподаватель', password: '123' }
+        ];
+
+        // 1. Отслеживаем отправку формы
+        document.getElementById('userForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Отменяем перезагрузку страницы
+
+            // Забираем текст из инпутов
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+
+            // Добавляем новую запись в массив (как будто сделали insert в базу)
+            localDatabase.push({
+                username: usernameInput,
+                password: passwordInput
+            });
+
+            console.log('Запись успешно добавлена в локальный массив:', localDatabase);
+
+            // Вызываем функцию обновления списка на экране
+            loadData();
+
+            // Очищаем поля формы
+            event.target.reset();
+        });
+
+        // 2. Функция SELECT и вывода данных через FOREACH
+        function loadData() {
+            const listContainer = document.getElementById('dataList');
+            listContainer.innerHTML = ''; // Очищаем старые элементы, чтобы они не дублировались
+
+            // Перебираем наш массив через forEach (то, что требовалось в задании)
+            localDatabase.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `Юзер: ${item.username}`; // Выводим логин на экран
+                listContainer.appendChild(li);
+            });
+        }
+
+        // Автоматически выводим начальные данные при открытии страницы
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+
+</body>
+</html>s
